@@ -10,7 +10,7 @@ const Holerites = () => {
 
     return (
         <View>
-            <Text>Holerites</Text>
+            <Text>Holerites Holerites</Text>
         </View>
     )
 }
