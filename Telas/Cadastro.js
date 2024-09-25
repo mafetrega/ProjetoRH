@@ -13,7 +13,6 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-
 const Cadastro = () => {
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
