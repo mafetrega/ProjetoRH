@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     View,
     KeyboardAvoidingView,
@@ -13,56 +14,61 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Cadastro = () => {
-    return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.inner}>
-                    <Text style={styles.header}>Cadastro</Text>
-                    <View style={styles.inputContainer}>
-                        <Icon name="user" size={20} color="#000" style={styles.icon} />
-                        <TextInput style={styles.textInput} placeholder="Nome" keyboardType='default' />
-                    </View>
+class Cadastro extends React.Component {
+    render() {
+        return (
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.inner}>
+                        <Text style={styles.header}>Cadastro</Text>
+                        <View style={styles.inputContainer}>
+                            <Icon name="user" size={20} color="#000" style={styles.icon} />
+                            <TextInput style={styles.textInput} placeholder="Nome" keyboardType='default' />
+                        </View>
 
-                    <View style={styles.inputContainer}>
-                        <Icon name="user" size={20} color="#000" style={styles.icon} />
-                        <TextInput style={styles.textInput} placeholder="Sobrenome" keyboardType='default' />
-                    </View>
+                        <View style={styles.inputContainer}>
+                            <Icon name="user" size={20} color="#000" style={styles.icon} />
+                            <TextInput style={styles.textInput} placeholder="Sobrenome" keyboardType='default' />
+                        </View>
 
-                    <View style={styles.inputContainer}>
-                        <Icon name="calendar" size={20} color="#000" style={styles.icon} />
-                        <TextInput style={styles.textInput} placeholder="Data de Nascimento" keyboardType='default' />
-                    </View>
+                        <View style={styles.inputContainer}>
+                            <Icon name="calendar" size={20} color="#000" style={styles.icon} />
+                            <TextInput style={styles.textInput} placeholder="Data de Nascimento" keyboardType='default' />
+                        </View>
 
-                    <View style={styles.inputContainer}>
-                        <Icon name="envelope" size={20} color="#000" style={styles.icon} />
-                        <TextInput style={styles.textInput} placeholder="Email" keyboardType='email-address' />
-                    </View>
+                        <View style={styles.inputContainer}>
+                            <Icon name="envelope" size={20} color="#000" style={styles.icon} />
+                            <TextInput style={styles.textInput} placeholder="Email" keyboardType='email-address' />
+                        </View>
 
-                    <View style={styles.inputContainer}>
-                        <Icon name="lock" size={20} color="#000" style={styles.icon} />
-                        <TextInput style={styles.textInput}
-                            placeholder="Senha"
-                            keyboardType="default"
-                            maxLength={8}
-                        />
-                    </View>
+                        <View style={styles.inputContainer}>
+                            <Icon name="lock" size={20} color="#000" style={styles.icon} />
+                            <TextInput style={styles.textInput}
+                                placeholder="Senha"
+                                keyboardType="default"
+                                maxLength={8}
+                            />
+                        </View>
 
-                    <TouchableOpacity style={styles.button}>
-                        <Text>Cadastrar</Text>
-                    </TouchableOpacity>
-                </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-    );
+                        <TouchableOpacity style={styles.button}>
+                            <Text>Cadastrar</Text>
+                        </TouchableOpacity>
+
+                        <View style={styles.btnPergunta}>
+                            <Text>Ainda não tem uma conta?</Text>
+                            <TouchableOpacity>
+                                <Text style={styles.textBtn}>Solicite seu cadastro aqui!</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-    },
     inner: {
         padding: 24,
         width: '100%',
@@ -70,15 +76,15 @@ const styles = StyleSheet.create({
         gap: 12,
         height: 'fit-content',
     },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     header: {
         fontSize: 36,
         marginBottom: 30,
     },
-    btnContainer: {
-        backgroundColor: 'white',
-        marginTop: 12,
-    },
-
     inputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -109,6 +115,15 @@ const styles = StyleSheet.create({
         width: 150,
         height: 50,
     },
+    btnPergunta: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 5,
+    },
+    textBtn: {
+        color: '#002D62',
+    }
 });
 
 export default Cadastro;
