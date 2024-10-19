@@ -15,6 +15,8 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HoleritesScreen from './Holerites';
+import BancoHoras from './BancoHoras';
+
 class HomeScreen extends React.Component {
     render() {
 
@@ -38,7 +40,8 @@ class HomeScreen extends React.Component {
                                 <Text style={styles.textOp}>Descontos</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.op}>
+                            <TouchableOpacity style={styles.op} onPress={() =>
+                                this.props.navigation.navigate('BancoHoras')} >
                                 <FontAwesome6 style={styles.icon} name="hourglass" size={40} color="#002D62" />
                                 <Text style={styles.textOp}> Banco de Horas </Text>
                             </TouchableOpacity>

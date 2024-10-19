@@ -11,6 +11,7 @@ import HomeScreen from './Telas/Home';
 import HoleritesScreen from './Telas/Holerites';
 import Cadastro from './Telas/Cadastro';
 import Login from './Telas/Login';
+import BancoHoras from './Telas/BancoHoras';
 
 function options(navigation, icon, tela, title) {
     return {
@@ -42,17 +43,23 @@ function Root() {
                 title="Holerites"
                 component={HoleritesScreen}
             />
+            <Stack.Screen
+                name="BancoHoras"
+                title="BancoHoras"
+                component={Cadastro}
+            />
+
             {/*
             <Stack.Screen
                 name="Cadastro"
                 title="Cadastro"
                 component={Cadastro}
-            />*/}
+            />
             <Stack.Screen
                 name="Login"
                 title="Login"
                 component={Login}
-            />
+            />*/}
             <Stack.Screen
                 name='HoleriteView'
                 title='HoleriteView'
@@ -82,6 +89,11 @@ class App extends React.Component {
                         title="Holerites"
                         options={({ navigation }) => options(navigation, "home", "Home", "Holerites")} />
 
+                    <Drawer.Screen
+                        name="BancoHoras"
+                        component={BancoHoras}
+                        title="Banco de Horas"
+                        options={({ navigation }) => options(navigation, "home", "Home", "Banco de Horas")} />
                     {/*
                     <Drawer.Screen
                         name="Cadastro"
