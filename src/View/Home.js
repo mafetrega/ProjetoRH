@@ -16,6 +16,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HoleritesScreen from './Holerites';
 import BancoHoras from './BancoHoras';
+import Ferias from './Ferias';
+import Ponto from './Ponto';
+import Perfil from './Perfil';
+import Horas from './Horas';
+
 
 class HomeScreen extends React.Component {
     render() {
@@ -28,6 +33,25 @@ class HomeScreen extends React.Component {
                     <ScrollView style={styles.scrollView}>
                         <Text style={styles.title}>Bem vindo!</Text>
                         <View style={styles.opcoes}>
+
+                            <TouchableOpacity style={styles.op} onPress={() =>
+                                this.props.navigation.navigate('Perfil')} >
+                                <FontAwesome style={styles.icon} name="user" size={40} color="#002D62" />
+                                <Text style={styles.textOp}>Perfil</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.op} onPress={() =>
+                                this.props.navigation.navigate('Ponto')} >
+                                <FontAwesome6 style={styles.icon} name="clock" size={40} color="#002D62" />
+                                <Text style={styles.textOp}>Ponto</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.op} onPress={() =>
+                                this.props.navigation.navigate('Horas')} >
+                                <AntDesign style={styles.icon} name="clockcircleo" size={40} color="#002D62" />
+                                <Text style={styles.textOp}> Gerenciar Horas</Text>
+                            </TouchableOpacity>
+
                             <TouchableOpacity style={styles.op} onPress={() =>
                                 this.props.navigation.navigate('HoleritesScreen')} >
                                 <AntDesign style={styles.icon} name="calculator" size={40} color="#002D62" />
@@ -35,18 +59,7 @@ class HomeScreen extends React.Component {
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.op} onPress={() =>
-                                this.props.navigation.navigate('HoleritesScreen')} >
-                                <AntDesign style={styles.icon} name="minussquareo" size={40} color="#002D62" />
-                                <Text style={styles.textOp}>Descontos</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity style={styles.op} onPress={() =>
-                                this.props.navigation.navigate('BancoHoras')} >
-                                <FontAwesome6 style={styles.icon} name="hourglass" size={40} color="#002D62" />
-                                <Text style={styles.textOp}> Banco de Horas </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity style={styles.op}>
+                                this.props.navigation.navigate('Ferias')} >
                                 <FontAwesome style={styles.icon} name="calendar-check-o" size={40} color="#002D62" />
                                 <Text style={styles.textOp}>Férias</Text>
                             </TouchableOpacity>

@@ -8,7 +8,8 @@ import {
     StatusBar,
     Modal,
     Image,
-    RefreshControl
+    RefreshControl,
+    Alert
 } from 'react-native';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
@@ -29,6 +30,9 @@ import Animated, {
     useAnimatedStyle,
 } from 'react-native-reanimated';
 
+import { WebView } from 'react-native-webview';
+import Constants from 'expo-constants';
+
 const HoleritesScreen = () => {
     const offset = useSharedValue({ x: 0, y: 0 });
     const start = useSharedValue({ x: 0, y: 0 });
@@ -36,51 +40,6 @@ const HoleritesScreen = () => {
     const savedScale = useSharedValue(1);
     const rotation = useSharedValue(0);
     const savedRotation = useSharedValue(0);
-    const animatedStyles = useAnimatedStyle(() => {
-        return {
-            transform: [
-                { translateX: offset.value.x },
-                { translateY: offset.value.y },
-                { scale: scale.value },
-                { rotateZ: `${rotation.value}rad` },
-            ],
-        };
-    });
-
-    const dragGesture = Gesture.Pan()
-        .averageTouches(true)
-        .onUpdate((e) => {
-            offset.value = {
-                x: e.translationX + start.value.x,
-                y: e.translationY + start.value.y,
-            };
-        })
-        .onEnd(() => {
-            start.value = {
-                x: offset.value.x,
-                y: offset.value.y,
-            };
-        });
-
-    const zoomGesture = Gesture.Pinch()
-        .onUpdate((event) => {
-            scale.value = savedScale.value * event.scale;
-        })
-        .onEnd(() => {
-            savedScale.value = scale.value;
-        });
-
-    const rotateGesture = Gesture.Rotation()
-        .onUpdate((event) => {
-            rotation.value = savedRotation.value + event.rotation;
-        })
-        .onEnd(() => {
-            savedRotation.value = rotation.value;
-        });
-
-    const composed = Gesture.Simultaneous(
-        Gesture.Simultaneous(zoomGesture, dragGesture)
-    );
 
     const [expanded, setExpanded] = useState(false);
     const [fontsLoaded] = useFonts({ Montserrat_400Regular, Montserrat_700Bold });
@@ -88,6 +47,14 @@ const HoleritesScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedAno, setSelectedAno] = useState("");
     const [selectedMes, setSelectedMes] = useState("");
+
+    const validateSelection = () => {
+        if (selectedAno === "" || selectedMes === "") {
+            Alert.alert('Selecione um ano e um mês');
+            return false;
+        }
+        return true;
+    };
 
     const dataAno = [
         { key: '2024', value: '2024' },
@@ -139,78 +106,75 @@ const HoleritesScreen = () => {
         { key: 'Setembro', value: 'Setembro' },
         { key: 'Outubro', value: 'Outubro' },
         { key: 'Novembro', value: 'Novembro' },
-        { key: 'Dezembro', value: 'Dezembro' },
+        { key: 'Dezembro', value: 'Dezembro' }
     ];
 
     return (
         <View style={[styles.container]}>
             <StatusBar animated={true} barStyle="default" />
 
-            <SelectList
-                setSelected={setSelectedAno}
-                data={dataAno}
-                boxStyles={styles.selectList}
-                dropdownStyles={styles.dropdown}
-                dropdownItemStyles={styles.dropdownItem}
-                maxHeight={500}
-                searchPlaceholder='Selecione um ano'
-                placeholder='Selecione um ano'
-            />
 
-            <SelectList
-                onSelect={() => setModalVisible(true)}
-                setSelected={setSelectedMes}
-                data={dataMes}
-                boxStyles={styles.selectList}
-                dropdownStyles={styles.dropdown}
-                dropdownItemStyles={styles.dropdownItem}
-                maxHeight={500}
-                searchPlaceholder='Selecione um mês'
-                placeholder='Selecione um mês'
-            />
 
-            <View style={{ alignSelf: 'center', marginVertical: 20 }}>
-                <Text style={{ marginTop: 10, color: 'gray' }}>{selectedMes} de {selectedAno}</Text>
+            <View style={styles.SelectsContainer}>
+                <Text style={styles.Text}>Selecione o ano e o mês do holerite que deseja</Text>
+                <Text style={styles.TitleSelect}>Selecione o ano</Text>
+                <SelectList
+                    setSelected={setSelectedAno}
+                    data={dataAno}
+                    boxStyles={styles.selectList}
+                    dropdownStyles={styles.dropdown}
+                    dropdownItemStyles={styles.dropdownItem}
+                    maxHeight={500}
+                    searchPlaceholder='Selecione um ano'
+                    placeholder='Selecione um ano'
+                />
+
+                <Text style={styles.TitleSelect}>Selecione o mês</Text>
+                <SelectList
+                    onSelect={() => {
+                        if (validateSelection()) {
+                            setModalVisible(!modalVisible);
+                        }
+                    }}
+                    setSelected={setSelectedMes}
+                    data={dataMes}
+                    boxStyles={styles.selectList}
+                    dropdownStyles={styles.dropdown}
+                    dropdownItemStyles={styles.dropdownItem}
+                    maxHeight={500}
+                    searchPlaceholder='Selecione um mês'
+                    placeholder='Selecione um mês'
+                />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(!modalVisible)}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+                if (validateSelection()) {
+                    setModalVisible(!modalVisible);
+                }
+            }}>
                 <Text>Pesquisar</Text>
             </TouchableOpacity>
 
             <Modal
+                style={{ marginTop: 100 }}
                 animationType="slide"
-                transparent={true}
                 visible={modalVisible}
                 animatedStyles='slide'
                 onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
                     setModalVisible(!modalVisible);
                 }}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>{selectedMes} de {selectedAno}</Text>
 
-                        <Text style={styles.modalText}>aqui vai o holerite</Text>
+                <Text style={styles.modalText}>
+                    {selectedMes} de {selectedAno}
+                </Text>
 
-                        <ScrollView style={styles.ScrollView} >
-                            <GestureHandlerRootView>
-                                <GestureDetector gesture={composed}>
-                                    <Animated.View style={[animatedStyles, styles.centeredView]}>
-                                        <Image style={{ resizeMode: 'cover', alignSelf: 'center' }}
-                                            source={require(`../imagens/2024/Janeiro.jpg`)}
-                                        />
-                                    </Animated.View>
-                                </GestureDetector>
-                            </GestureHandlerRootView>
-                        </ScrollView>
+                <WebView source={require(`./imagens/2024/Janeiro.jpg`)} />
 
-                        <TouchableOpacity
-                            style={styles.buttonClose}
-                            onPress={() => setModalVisible(!modalVisible)}>
-                            <FontAwesome6 name="xmark" size={20} color="black" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                <TouchableOpacity
+                    style={styles.buttonClose}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <FontAwesome6 name="xmark" size={20} color="black" />
+                </TouchableOpacity>
             </Modal >
         </View >
     );
@@ -227,23 +191,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#1010',
-    },
-    modalView: {
-        marginTop: 250,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 35,
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
     },
     button: {
         alignItems: 'center',
@@ -265,19 +212,38 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 999,
         right: 10,
-        top: 10,
+        top: 50,
     },
     modalText: {
-        marginBottom: 15,
+        marginBottom: 30,
+        marginTop: 70,
         textAlign: 'center',
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
+    Text: {
+        color: '#002D62',
+        fontSize: 15,
+        textAlign: 'justify',
+        fontFamily: 'Montserrat_700',
+    },
+    SelectsContainer: {
+        marginVertical: 20,
+        marginHorizontal: 25,
     },
     selectList: {
-        margin: 20,
         height: 60,
+        marginTop: 10,
         alignItems: 'center',
     },
+    TitleSelect: {
+        color: '#002D62',
+        fontSize: 15,
+        marginTop: 25,
+        fontFamily: 'Montserrat_700Bold',
+    },
     dropdown: {
-        width: '90%',
+        width: '100%',
         alignSelf: 'center',
         marginTop: 0,
         borderRadius: 10,

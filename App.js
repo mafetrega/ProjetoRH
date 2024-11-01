@@ -7,11 +7,15 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
-import HomeScreen from './Telas/Home';
-import HoleritesScreen from './Telas/Holerites';
-import Cadastro from './Telas/Cadastro';
-import Login from './Telas/Login';
-import BancoHoras from './Telas/BancoHoras';
+import HomeScreen from './src/View/Home';
+import HoleritesScreen from './src/View/Holerites';
+import Login from './src/View/Login';
+import BancoHoras from './src/View/BancoHoras';
+import HorasExtras from './src/View/HorasExtras';
+import Ferias from './src/View/Ferias';
+import Perfil from './src/View/Perfil';
+import Ponto from './src/View/Ponto';
+import Horas from './src/View/Horas';
 
 function options(navigation, icon, tela, title) {
     return {
@@ -46,26 +50,45 @@ function Root() {
             <Stack.Screen
                 name="BancoHoras"
                 title="BancoHoras"
-                component={Cadastro}
+                component={BancoHoras}
             />
 
-            {/*
             <Stack.Screen
-                name="Cadastro"
-                title="Cadastro"
-                component={Cadastro}
+                name="HorasExtras"
+                title="HorasExtras"
+                component={HorasExtras}
             />
+
             <Stack.Screen
-                name="Login"
-                title="Login"
-                component={Login}
-            />*/}
+                name="Ferias"
+                title="Férias"
+                component={Ferias}
+            />
+
+            <Stack.Screen
+                name="Perfil"
+                title="Perfil"
+                component={Perfil}
+            />
+
             <Stack.Screen
                 name='HoleriteView'
                 title='HoleriteView'
                 options={{
                     presentation: 'modal',
                 }}
+            />
+
+            <Stack.Screen
+                name='Ponto'
+                title='Ponto'
+                component={Ponto}
+            />
+
+            <Stack.Screen
+                name='Horas'
+                title='Horas'
+                component={Horas}
             />
         </Stack.Navigator>
     );
@@ -94,18 +117,42 @@ class App extends React.Component {
                         component={BancoHoras}
                         title="Banco de Horas"
                         options={({ navigation }) => options(navigation, "home", "Home", "Banco de Horas")} />
-                    {/*
+
                     <Drawer.Screen
-                        name="Cadastro"
-                        component={Cadastro}
-                        title="Cadastro"
-                        options={({ navigation }) => options(navigation, "home", "Home", "Cadastro")} />
-                    */}
+                        name="HorasExtras"
+                        component={HorasExtras}
+                        title="Horas Extras"
+                        options={({ navigation }) => options(navigation, "home", "Home", "Horas Extras")} />
+
+                    <Drawer.Screen
+                        name="Ferias"
+                        component={Ferias}
+                        title="Férias"
+                        options={({ navigation }) => options(navigation, "home", "Home", "Férias")} />
+
+                    <Drawer.Screen
+                        name="Perfil"
+                        component={Perfil}
+                        title="Perfil"
+                        options={({ navigation }) => options(navigation, "home", "Home", "Perfil")} />
+
                     <Drawer.Screen
                         name="Login"
                         component={Login}
                         title="Login"
                         options={({ navigation }) => options(navigation, "home", "Home", "Login")} />
+
+                    <Drawer.Screen
+                        name='Ponto'
+                        component={Ponto}
+                        title='Ponto'
+                        options={({ navigation }) => options(navigation, "home", "Home", "Ponto")} />
+
+                    <Drawer.Screen
+                        name='Horas'
+                        component={Horas}
+                        title='Horas'
+                        options={({ navigation }) => options(navigation, "home", "Home", "Horas")} />
                 </Drawer.Navigator>
             </NavigationContainer>
         );
@@ -196,7 +243,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: '#DDDDDD',
         padding: 10,
-        borderRadius: 50,
+        borderRadius: '50%',
         width: 150,
         height: 50,
     },

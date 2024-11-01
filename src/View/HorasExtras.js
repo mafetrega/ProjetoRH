@@ -6,17 +6,24 @@ import { FlatList } from 'react-native';
 import { Modal, TouchableOpacity } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-export const BancoHoras = () => {
+export const HorasExtras = () => {
     const [data, setData] = useState(new Date());
     const [horaInicio, setHoraInicio] = useState(new Date());
     const [horaSaida, setHoraSaida] = useState(new Date());
     const [saldos, setSaldos] = useState([]);
+    const [horas, setHoras] = useState([]);
     const [saldoSoma, setSaldoSoma] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
 
     const onChangeData = (event, selectedDate) => {
         const currentDate = selectedDate || data;
-        setData(currentDate);
+        const today = new Date();
+        if (currentDate > today) {
+            alert('A data não pode ser maior que hoje.');
+            setData(today);
+        } else {
+            setData(currentDate);
+        }
     };
 
     const onChangeHoraInicio = (event, selectedTime) => {
@@ -62,7 +69,7 @@ export const BancoHoras = () => {
         }
 
         // Subtract the fixed shift duration of 8 hours
-        saldo -= 8;
+        saldo -= 9;
 
         // Ensure saldo is not negative
         saldo = Math.max(saldo, 0);
@@ -71,17 +78,42 @@ export const BancoHoras = () => {
     };
 
     const adicionarSaldoFlatList = () => {
-        const novoSaldo = calcularSaldo();
-        if (novoSaldo > 0) {
-            setSaldos([...saldos, novoSaldo]);
+        const saldo = calcularSaldo();
+        let novoSaldo;
+
+        if (saldo < 1) {
+            const minutos = Math.round(saldo * 60);
+            novoSaldo = `${minutos} min`;
         } else {
-            alert('Saldo inválido. Verifique os horários de entrada e saída.');
+            const horas = Math.floor(saldo);
+            const minutos = Math.round((saldo - horas) * 60);
+            novoSaldo = `${horas} horas e ${minutos} min`;
         }
+
+        const saldoComData = { data: data.toLocaleDateString(), saldo: novoSaldo };
+        setSaldos([...saldos, saldoComData]);
+
     };
 
-    const somarSaldos = () => {
-        const soma = saldos.reduce((acc, item) => acc + item, 0);
+    const adicionarSomaSaldo = () => {
+        const hora = calcularSaldo();
+        setHoras([...horas, hora]);
+        const soma = horas.reduce((acc, curr) => acc + curr, 0) + hora;
         setSaldoSoma(soma);
+    }
+
+    const somarSaldos = () => {
+        saldo = saldoSoma;
+        if (saldo < 1) {
+            const minutos = Math.round(saldo * 60);
+            novoSaldo = `${minutos} min`;
+            return novoSaldo;
+        } else {
+            const horas = Math.floor(saldo);
+            const minutos = Math.round((saldo - horas) * 60);
+            novoSaldo = `${horas} horas e ${minutos} min`;
+            return novoSaldo;
+        }
     };
 
     const calcularValor = () => {
@@ -92,6 +124,10 @@ export const BancoHoras = () => {
     const limparSaldos = () => {
         setSaldos([]);
         setSaldoSoma(0);
+        setHoras([]);
+        setData(new Date());
+        setHoraInicio(new Date());
+        setHoraSaida(new Date());
     };
 
     const toggleModal = () => {
@@ -138,7 +174,7 @@ export const BancoHoras = () => {
                     </View>
 
                     <View style={styles.buttons}>
-                        <TouchableOpacity style={styles.btn} onPress={adicionarSaldoFlatList}>
+                        <TouchableOpacity style={styles.btn} onPress={() => { adicionarSaldoFlatList(); adicionarSomaSaldo(); }}>
                             <Text>Adicionar Saldo</Text>
                         </TouchableOpacity>
 
@@ -146,31 +182,12 @@ export const BancoHoras = () => {
                             <Text>Limpar Saldos</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btn} onPress={() => { somarSaldos(); toggleModal(); }} >
-                            <Text>Somar Saldos</Text>
-                        </TouchableOpacity >
                     </View>
 
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={toggleModal}
-                    >
-                        <View style={styles.modalContainer}>
-                            <View style={styles.modalContent}>
-                                <Text style={styles.titleResultados}>Resultados:</Text>
-                                <Text style={styles.textResultados}>Data: {data.toLocaleDateString()}</Text>
-                                <Text style={styles.textResultados}>Valor a Receber: R$ {calcularValor()}</Text>
-                                <Text style={styles.textResultados}>Saldo Total: {saldoSoma}</Text>
-                                <TouchableOpacity
-                                    style={styles.buttonClose}
-                                    onPress={() => setModalVisible(!modalVisible)}>
-                                    <FontAwesome6 name="xmark" size={20} color="black" />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
+                    <Text style={styles.titleResultados}>Resultados:</Text>
+                    <Text style={styles.textResultados}>R$ 50.00 por Hora</Text>
+                    <Text style={styles.textResultados}>Saldo Total: {somarSaldos()}</Text>
+                    <Text style={styles.textResultados}>Valor a Receber: R$ {calcularValor()}</Text>
 
                     <Text style={styles.titleResultados}>Horas adicionadas:</Text>
                     <FlatList
@@ -179,7 +196,7 @@ export const BancoHoras = () => {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => (
                             <View style={styles.ItemFlatList}>
-                                <Text style={styles.textResultados}>{item}</Text>
+                                <Text style={styles.textResultados}>{item.data} - {item.saldo}</Text>
                             </View>
                         )}
                     />
@@ -190,7 +207,7 @@ export const BancoHoras = () => {
     );
 };
 
-export default BancoHoras;
+export default HorasExtras;
 
 const styles = StyleSheet.create({
     buttonClose: {
@@ -273,6 +290,9 @@ const styles = StyleSheet.create({
     btn: {
         padding: 10,
         backgroundColor: '#ccc',
-        borderRadius: 5,
+        borderRadius: 50,
+        width: '48%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });

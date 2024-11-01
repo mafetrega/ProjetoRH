@@ -1,0 +1,32 @@
+[
+    {
+        "idFuncionario": 1,
+        "dataInicio": "01/12/2024",
+        "dataFim": "15/12/2024",
+        "totalDias": 15
+    },
+    {
+        "idFuncionario": 2,
+        "dataInicio": "10/01/2024",
+        "dataFim": "20/01/2024",
+        "totalDias": 11
+    },
+    {
+        "idFuncionario": 3,
+        "dataInicio": "05/02/2024",
+        "dataFim": "25/02/2024",
+        "totalDias": 21
+    },
+    {
+        "idFuncionario": 4,
+        "dataInicio": "01/03/2024",
+        "dataFim": "10/03/2024",
+        "totalDias": 10
+    },
+    {
+        "idFuncionario": 5,
+        "dataInicio": "15/04/2024",
+        "dataFim": "30/04/2024",
+        "totalDias": 16
+    }
+]

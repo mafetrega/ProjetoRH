@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "nome": "Maria Silva",
+        "email": "maria.silva@example.com",
+        "cargo": "Desenvolvedora"
+    },
+    {
+        "id": 2,
+        "nome": "João Souza",
+        "email": "joao.souza@example.com",
+        "cargo": "Gerente de Projetos"
+    },
+    {
+        "id": 3,
+        "nome": "Ana Pereira",
+        "email": "ana.pereira@example.com",
+        "cargo": "Analista de Sistemas"
+    },
+    {
+        "id": 4,
+        "nome": "Carlos Lima",
+        "email": "carlos.lima@example.com",
+        "cargo": "Designer"
+    },
+    {
+        "id": 5,
+        "nome": "Fernanda Costa",
+        "email": "fernanda.costa@example.com",
+        "cargo": "Desenvolvedora"
+    },
+    {
+        "id": 6,
+        "nome": "Ricardo Alves",
+        "email": "ricardo.alves@example.com",
+        "cargo": "Tester"
+    },
+    {
+        "id": 7,
+        "nome": "Patrícia Mendes",
+        "email": "patricia.mendes@example.com",
+        "cargo": "Gerente de RH"
+    },
+    {
+        "id": 8,
+        "nome": "Gustavo Rocha",
+        "email": "gustavo.rocha@example.com",
+        "cargo": "DevOps"
+    },
+    {
+        "id": 9,
+        "nome": "Juliana Martins",
+        "email": "juliana.martins@example.com",
+        "cargo": "Scrum Master"
+    },
+    {
+        "id": 10,
+        "nome": "Roberto Nunes",
+        "email": "roberto.nunes@example.com",
+        "cargo": "Arquiteto de Software"
+    }
+]
