@@ -7,31 +7,17 @@ import {
     Text,
     StatusBar,
     Modal,
-    Image,
-    RefreshControl,
     Alert
 } from 'react-native';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-
-import { SelectList } from 'react-native-dropdown-select-list'
-
+import { SelectList } from 'react-native-dropdown-select-list';
 import { useFonts, Montserrat_400Regular, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
-
-import {
-    GestureDetector,
-    Gesture,
-    GestureHandlerRootView,
-    ScrollView,
-} from 'react-native-gesture-handler';
-
 import Animated, {
-    useSharedValue,
-    useAnimatedStyle,
+    useSharedValue
 } from 'react-native-reanimated';
 
 import { WebView } from 'react-native-webview';
-import Constants from 'expo-constants';
 
 const HoleritesScreen = () => {
     const offset = useSharedValue({ x: 0, y: 0 });
@@ -112,8 +98,6 @@ const HoleritesScreen = () => {
     return (
         <View style={[styles.container]}>
             <StatusBar animated={true} barStyle="default" />
-
-
 
             <View style={styles.SelectsContainer}>
                 <Text style={styles.Text}>Selecione o ano e o mês do holerite que deseja</Text>

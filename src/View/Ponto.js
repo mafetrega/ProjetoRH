@@ -5,8 +5,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import dados from '../Database/horas.json';
 import { FontAwesome } from '@expo/vector-icons';
 
-
-
 export const Ponto = () => {
     const [data, setData] = useState(Date.now());
     const [entrada, setEntrada] = useState(null);
